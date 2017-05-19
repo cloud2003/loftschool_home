@@ -3,7 +3,7 @@
 .DS_Store
 *.lock
 *.log
-out/
-dist/
-node_modules/
-coverage/
+dist/*
+node_modules/*
+coverage/*
+karma.conf.js
