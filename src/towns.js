@@ -36,6 +36,48 @@ let homeworkContainer = document.querySelector('#homework-container');
  * @return {Promise<Array<{name: string}>>}
  */
 function loadTowns() {
+    return new Promise(function(resolve, reject) {
+        let xhr = new XMLHttpRequest();
+
+        xhr.open('GET', 'https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json', true);
+        xhr.send();
+        xhr.addEventListener('load', function () {
+            if (xhr.status < 400) {
+                resolve(JSON.parse(xhr.responseText));
+            } else {
+                reject();
+            }
+        });
+    }).then(
+        function(obj) {
+            obj.sort(function(a, b) {
+                if ( a.name > b.name ) {
+                    return 1;
+                }
+                if ( a.name < b.name ) {
+                    return -1;
+                }
+
+                return 0;
+            });
+
+            loadingBlock.setAttribute('style', 'display: none');
+            filterBlock.setAttribute('style', 'display: block');
+
+            return obj;
+        },
+        function() {
+            // console.log('Не удалось загрузить города');
+
+            var error = document.createElement('div');
+
+            error.innerHTML = 'Не удалось загрузить города';
+
+            loadingBlock.setAttribute('style', 'display: none');
+            filterBlock.setAttribute('style', 'display: block');
+            filterResult.setAttribute('style', 'display:block;');
+            filterResult.appendChild(error);
+        });
 }
 
 /**
@@ -52,6 +94,14 @@ function loadTowns() {
  * @return {boolean}
  */
 function isMatching(full, chunk) {
+    full = full.toLowerCase();
+    chunk = chunk.toLowerCase();
+
+    if ( ~full.indexOf(chunk) && chunk.length != 0 ) {
+        return true;
+    }
+
+    return false;
 }
 
 let loadingBlock = homeworkContainer.querySelector('#loading-block');
@@ -61,6 +111,27 @@ let filterResult = homeworkContainer.querySelector('#filter-result');
 let townsPromise;
 
 filterInput.addEventListener('keyup', function() {
+    townsPromise.then(function(cities) {
+        var newCities = [];
+
+        cities.forEach(function (city) {
+
+            if (isMatching(city.name, filterInput.value)) {
+                newCities.push(city.name);
+            }
+        });
+
+        filterResult.innerHTML = '';
+        for (var key in newCities) {
+            if (newCities.hasOwnProperty(key)) {
+
+                var div = document.createElement('div');
+
+                div.innerHTML = newCities[key];
+                filterResult.appendChild(div);
+            }
+        }
+    });
 });
 
 export {
