@@ -77,7 +77,25 @@ function loadTowns() {
             filterBlock.setAttribute('style', 'display: block');
             filterResult.setAttribute('style', 'display:block;');
             filterResult.appendChild(error);
+
+            reLoad();
         });
+}
+
+function reLoad() {
+    var reloadElem = document.createElement('button');
+
+    reloadElem.setAttribute('id', 'reloadButton');
+    reloadElem.innerHTML = 'Повторить';
+    filterResult.appendChild(reloadElem);
+
+    reloadElem.addEventListener('click', function () {
+        loadTowns();
+
+        while (filterResult.firstChild) {
+            filterResult.removeChild(filterResult.firstChild);
+        }
+    });
 }
 
 /**
@@ -108,7 +126,7 @@ let loadingBlock = homeworkContainer.querySelector('#loading-block');
 let filterBlock = homeworkContainer.querySelector('#filter-block');
 let filterInput = homeworkContainer.querySelector('#filter-input');
 let filterResult = homeworkContainer.querySelector('#filter-result');
-let townsPromise;
+let townsPromise = loadTowns();
 
 filterInput.addEventListener('keyup', function() {
     townsPromise.then(function(cities) {
