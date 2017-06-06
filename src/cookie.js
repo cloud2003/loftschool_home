@@ -33,14 +33,110 @@
  * homeworkContainer.appendChild(...);
  */
 let homeworkContainer = document.querySelector('#homework-container');
+let addButton = homeworkContainer.querySelector('#add-button');
 let filterNameInput = homeworkContainer.querySelector('#filter-name-input');
 let addNameInput = homeworkContainer.querySelector('#add-name-input');
 let addValueInput = homeworkContainer.querySelector('#add-value-input');
-let addButton = homeworkContainer.querySelector('#add-button');
-let listTable = homeworkContainer.querySelector('#list-table tbody');
+
+var div = document.createElement('div');
+
+div.setAttribute('id', 'list-table');
+homeworkContainer.appendChild(div);
+let listTableDiv = homeworkContainer.querySelector('#list-table');
+
+function createCookie(name, value) {
+    document.cookie = name + '=' + value;
+}
+
+function deleteCookie(name) {
+    let date = new Date(0);
+
+    createCookie(name, '; expires=' + date.toUTCString());
+}
+
+function getCookie() {
+    if (document.cookie.length == 0) {
+        return [];
+    }
+    let cookieStr = document.cookie;
+
+    let cookieArr = cookieStr.split('; ');
+
+    let cookieNameArr = [];
+
+    for (let i = 0; i < cookieArr.length; i++) {
+        let keyCookie = cookieArr[i].split('=');
+
+        cookieNameArr[i] = {
+            name: keyCookie[0],
+            value: keyCookie[1]
+        };
+    }
+
+    return cookieNameArr;
+}
+
+function isMatching (full, chunk) {
+    full = full.toLowerCase();
+    chunk = chunk.toLowerCase();
+
+    if ( ~full.indexOf(chunk) && chunk.length != 0 ) {
+        return true;
+    }
+
+    return false;
+}
+
+function createTableCookie(cookieArr) {
+    var table = '<table><tbody><tr><th>NAME</th><th>VALUE</th><th>Delete cookie</th></tr>';
+
+    for (let key in cookieArr) {
+        table += '<tr><td>' + cookieArr[key].name + '</td><td>' + cookieArr[key].value + '</td><td><button>удалить</button></td></tr>';
+    }
+    table += '</tbody></table>';
+    listTableDiv.innerHTML = table;
+
+    let listTable = homeworkContainer.querySelector('#list-table tbody');
+
+    listTable.addEventListener('click', function (e) {
+        if (e.target.tagName == 'BUTTON') {
+            let delParent = e.target.parentNode.parentNode;
+            let delCookie = delParent.firstChild.textContent;
+
+            deleteCookie(delCookie);
+            listTable.deleteRow(delParent.rowIndex);
+        }
+    });
+}
+
+createTableCookie(getCookie());
 
 filterNameInput.addEventListener('keyup', function() {
+    var cookieArrNew = [];
+    var cookieArr = getCookie();
+
+    for (let i = 0; i < cookieArr.length; i++) {
+        if ( isMatching(cookieArr[i].name, filterNameInput.value) || isMatching(cookieArr[i].value, filterNameInput.value) ) {
+            cookieArrNew.push({
+                name: cookieArr[i].name,
+                value: cookieArr[i].value
+            });
+        }
+    }
+    createTableCookie(cookieArrNew);
+
+    if (this.value == '') {
+        createTableCookie(getCookie());
+    }
 });
 
 addButton.addEventListener('click', () => {
+    if (!addNameInput.value == '' && !addValueInput.value == '') {
+        createCookie(addNameInput.value, addValueInput.value);
+    }
+    addNameInput.value = addValueInput.value = '';
+
+    if (filterNameInput.value == '') {
+        createTableCookie(getCookie());
+    }
 });

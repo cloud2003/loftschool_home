@@ -38,7 +38,8 @@ function createCookie(name, value) {
  */
 function deleteCookie(name) {
     var date = new Date(0);
-    createCookie(name, "; expires=" + date.toUTCString());
+
+    createCookie(name, '; expires=' + date.toUTCString());
 }
 
 export {

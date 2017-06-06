@@ -6,8 +6,12 @@
 </head>
 <body>
 <style>
+    #homework-container {
+        width: 500px;
+    }
     table {
         border-collapse: collapse;
+        width: 100%;
     }
     td, th {
         border-bottom: 1px solid #ccc;
@@ -17,6 +21,11 @@
     td:last-child {
         text-align: right;
     }
+    td:nth-child(2) {
+        width: 300px;
+        word-break: break-all;
+    }
+
 </style>
 <div id="homework-container">
     <input type="text" id="add-name-input" placeholder="name" />
@@ -26,7 +35,8 @@
     <br />
     <input type="text" id="filter-name-input" placeholder="filter" />
 
-    <div id="list-table"></div>
+    <!--<div id="list-table"></div>-->
+
 </div>
 
 <script>
@@ -66,68 +76,16 @@
      */
 
     let homeworkContainer = document.querySelector('#homework-container');
-    let listTableDiv = homeworkContainer.querySelector('#list-table');
     let addButton = homeworkContainer.querySelector('#add-button');
-
-    createTableCookie(getCookie());
-
     let filterNameInput = homeworkContainer.querySelector('#filter-name-input');
     let addNameInput = homeworkContainer.querySelector('#add-name-input');
     let addValueInput = homeworkContainer.querySelector('#add-value-input');
-    let listTable = homeworkContainer.querySelector('#list-table tbody');
 
-    function createTableCookie(cookieArr) {
-        //let cookieArr = getCookie();
+    var div = document.createElement('div');
+    div.setAttribute('id', 'list-table');
+    homeworkContainer.appendChild(div);
+    let listTableDiv = homeworkContainer.querySelector('#list-table');
 
-        var table = '<table><tbody><tr><th>NAME</th><th>VALUE</th><th>Delete cookie</th></tr>';
-
-        for(let key in cookieArr) {
-            table += '<tr><td>' + cookieArr[key].name + '</td><td>' + cookieArr[key].value + '</td><td><button>удалить</button></td></tr>';
-        }
-
-        table += '</tbody></table>';
-        listTableDiv.innerHTML = table;
-    }
-
-    createCookie('_we_', 'w21q1223ew4324o52ieo');
-    createCookie('_you_', 'ew4324o52ieo');
-    createCookie('_they_', 'they-ew4324o52ieo');
-
-    filterNameInput.addEventListener('keyup', function() {
-
-        var cookieArrNew = [];
-        var cookieArr = getCookie();
-
-        for(let i = 0; i < cookieArr.length; i++) {
-            if ( isMatching(cookieArr[i].name, filterNameInput.value) ) {
-                cookieArrNew.push({
-                    name: cookieArr[i].name,
-                    value: cookieArr[i].value
-                });
-            }
-        }
-
-        //console.log(cookieArrNew);
-        createTableCookie(cookieArrNew);
-    });
-
-    addButton.addEventListener('click', () => {
-        if (!addNameInput.value == "" || !addValueInput.value == "") {
-            createCookie(addNameInput.value, addValueInput.value);
-        }
-        addNameInput.value = addValueInput.value = '';
-        createTableCookie(getCookie());
-    });
-
-    listTable.addEventListener('click', function (e) {
-        //console.log(e);
-        if (e.target.tagName == 'BUTTON') {
-            let delParent = e.target.parentNode.parentNode;
-            let delCookie = delParent.firstChild.textContent;
-            deleteCookie(delCookie);
-            listTable.deleteRow(delParent.rowIndex);
-        }
-    });
 
     function createCookie(name, value) {
         document.cookie = name + '=' + value;
@@ -139,10 +97,12 @@
     }
 
     function getCookie() {
+        if (document.cookie.length == 0) {
+            return [];
+        }
         let cookieStr = document.cookie;
         let cookieArr = cookieStr.split('; ');
-        let cookieNameArr = new Array({name: '', value: ''});
-
+        let cookieNameArr = [];
         for (let i = 0; i < cookieArr.length; i++) {
             let keyCookie = cookieArr[i].split('=');
             cookieNameArr[i] = {
@@ -150,20 +110,73 @@
                 value: keyCookie[1]
             };
         }
-
         return cookieNameArr;
     }
 
     function isMatching (full, chunk) {
+        //console.log(full);
         full = full.toLowerCase();
         chunk = chunk.toLowerCase();
 
-        if( ~full.indexOf(chunk) && chunk.length != 0 ) {
+        if ( ~full.indexOf(chunk) && chunk.length != 0 ) {
             return true;
         }
-
         return false;
     }
+
+    function createTableCookie(cookieArr) {
+        var table = '<table><tbody><tr><th>NAME</th><th>VALUE</th><th>Delete cookie</th></tr>';
+
+        for (let key in cookieArr) {
+            table += '<tr><td>' + cookieArr[key].name + '</td><td>' + cookieArr[key].value + '</td><td><button>удалить</button></td></tr>';
+        }
+        table += '</tbody></table>';
+        listTableDiv.innerHTML = table;
+
+        let listTable = homeworkContainer.querySelector('#list-table tbody');
+
+        listTable.addEventListener('click', function (e) {
+            if (e.target.tagName == 'BUTTON') {
+                let delParent = e.target.parentNode.parentNode;
+                let delCookie = delParent.firstChild.textContent;
+
+                deleteCookie(delCookie);
+                listTable.deleteRow(delParent.rowIndex);
+            }
+        });
+    }
+
+    createTableCookie(getCookie());
+
+    filterNameInput.addEventListener('keyup', function(e) {
+        var cookieArrNew = [];
+        var cookieArr = getCookie();
+
+        for (let i = 0; i < cookieArr.length; i++) {
+            if ( isMatching(cookieArr[i].name, filterNameInput.value) || isMatching(cookieArr[i].value, filterNameInput.value) ) {
+                cookieArrNew.push({
+                    name: cookieArr[i].name,
+                    value: cookieArr[i].value
+                });
+            }
+        }
+        createTableCookie(cookieArrNew);
+
+        if (this.value == '') {
+            createTableCookie(getCookie());
+        }
+    });
+
+    addButton.addEventListener('click', function() {
+        if (!addNameInput.value == '' && !addValueInput.value == '') {
+            createCookie(addNameInput.value, addValueInput.value);
+        }
+        addNameInput.value = addValueInput.value = '';
+
+        if (filterNameInput.value == '') {
+            createTableCookie(getCookie());
+        }
+    });
 
 </script>
 
