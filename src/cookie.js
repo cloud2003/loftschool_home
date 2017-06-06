@@ -37,12 +37,8 @@ let addButton = homeworkContainer.querySelector('#add-button');
 let filterNameInput = homeworkContainer.querySelector('#filter-name-input');
 let addNameInput = homeworkContainer.querySelector('#add-name-input');
 let addValueInput = homeworkContainer.querySelector('#add-value-input');
-
-var div = document.createElement('div');
-
-div.setAttribute('id', 'list-table');
-homeworkContainer.appendChild(div);
-let listTableDiv = homeworkContainer.querySelector('#list-table');
+//  let listBlock = homeworkContainer.querySelector('#list-block');
+let listTable = homeworkContainer.querySelector('#list-table tbody');
 
 function createCookie(name, value) {
     document.cookie = name + '=' + value;
@@ -88,28 +84,25 @@ function isMatching (full, chunk) {
 }
 
 function createTableCookie(cookieArr) {
-    var table = '<table><tbody><tr><th>NAME</th><th>VALUE</th><th>Delete cookie</th></tr>';
+    var table = '';
 
     for (let key in cookieArr) {
         table += '<tr><td>' + cookieArr[key].name + '</td><td>' + cookieArr[key].value + '</td><td><button>удалить</button></td></tr>';
     }
-    table += '</tbody></table>';
-    listTableDiv.innerHTML = table;
 
-    let listTable = homeworkContainer.querySelector('#list-table tbody');
-
-    listTable.addEventListener('click', function (e) {
-        if (e.target.tagName == 'BUTTON') {
-            let delParent = e.target.parentNode.parentNode;
-            let delCookie = delParent.firstChild.textContent;
-
-            deleteCookie(delCookie);
-            listTable.deleteRow(delParent.rowIndex);
-        }
-    });
+    listTable.innerHTML = table;
 }
 
-createTableCookie(getCookie());
+listTable.addEventListener('click', function (e) {
+    if (e.target.tagName == 'BUTTON') {
+        let delParent = e.target.parentNode.parentNode;
+        let delCookie = delParent.firstChild.textContent;
+
+        deleteCookie(delCookie);
+
+        listTable.removeChild(delParent);
+    }
+});
 
 filterNameInput.addEventListener('keyup', function() {
     var cookieArrNew = [];
