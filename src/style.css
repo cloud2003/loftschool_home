@@ -1,0 +1,129 @@
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  outline: 0;
+}
+body {
+  font-family: 'Trebuchet MS', Helvetica, sans-serif;
+  font-size: 1em;
+}
+.b-content {
+  width: 700px;
+  margin: 0 auto;
+}
+.b-content__header {
+  font-size: 20px;
+  color: #fff;
+  background-color: #f78430;
+  padding: 10px 20px;
+  -webkit-border-radius: 5px 5px 0 0;
+  -moz-border-radius: 5px 5px 0 0;
+  border-radius: 5px 5px 0 0;
+}
+.b-content__body {
+  background-color: rgba(241, 241, 241, 0.47);
+}
+.b-row {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: -ms-flex;
+  display: flex;
+  -webkit-flex: 0 1 auto;
+  -ms-flex: 0 1 auto;
+  flex: 0 1 auto;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+.b-col {
+  -webkit-flex-basis: 50%;
+  -ms-flex-basis: 50%;
+  flex-basis: 50%;
+  max-width: 50%;
+  padding: 0 10px;
+}
+.b-filters {
+  padding: 10px 0;
+}
+.b-lists {
+  background-color: #fff;
+}
+.b-lists__title {
+  padding: 10px 0 5px;
+  border-bottom: 1px solid #f1f1f1;
+}
+.b-list__item {
+  overflow: hidden;
+  padding: 5px;
+  border-bottom: 1px solid #f1f1f1;
+}
+.b-list__item:hover {
+  background-color: #f1f1f1;
+}
+.b-list__item:last-child {
+  border-bottom: 0;
+}
+.b-list__img {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 0;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  border-radius: 25px;
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+  overflow: hidden;
+}
+.b-list__img img {
+  width: 100%;
+  height: auto;
+}
+.b-list__name {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 0;
+  font-size: 14px;
+}
+.b-list__plus {
+  float: right;
+  font-size: 43px;
+  color: #ddd;
+  cursor: pointer;
+}
+.b-list__plus::after {
+  display: block;
+}
+.b-list.my-friends .b-list__plus::after {
+  content: '+';
+}
+.b-list.add-friends .b-list__plus::after {
+  content: '×';
+}
+.b-safe {
+  padding: 10px 10px;
+  text-align: right;
+}
+.b-button {
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  color: #fff;
+  padding: 10px 20px;
+  background-color: #f78430;
+  border: 0;
+}
+.b-input {
+  -webkit-border-radius: 15px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  width: 100%;
+  height: 30px;
+  padding: 0 10px 0 30px;
+  border: 1px solid #ddd;
+  background: #fff url("data:image/svg+xml,%3Csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' width='20px' height='20px' viewBox='0 0 512 512' xml:space='preserve'%3E%3Cg%3E%3Cpath d='M493.25,402.75L393.094,302.562C407.625,274.172,416,242.094,416,208C416,93.125,322.875,0,208,0C93.109,0,0,93.125,0,208s93.109,208,208,208c33.953,0,65.906-8.312,94.219-22.719c-0.031,0-0.094,0.031-0.125,0.062c0.156-0.094,0.344-0.156,0.531-0.25L402.75,493.25c25.031,25,65.562,25,90.5,0C518.25,468.281,518.25,427.75,493.25,402.75z M48,208c0-88.219,71.781-160,160-160c88.219,0,160,71.781,160,160s-71.781,160-160,160S48,296.219,48,208z M459.312,436.656c-6.25,6.25-16.375,6.25-22.625,0l-45.25-45.25c-6.25-6.25-6.25-16.375,0-22.625s16.375-6.25,22.625,0l45.25,45.25C465.594,420.281,465.594,430.406,459.312,436.656z' fill='%23ddd'/%3E%3C/g%3E%3C/svg%3E") no-repeat 6px 4px;
+}
