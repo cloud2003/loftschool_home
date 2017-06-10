@@ -127,7 +127,12 @@ addButton.addEventListener('click', () => {
     if (!addNameInput.value == '' && !addValueInput.value == '') {
         createCookie(addNameInput.value, addValueInput.value);
     }
-    addNameInput.value = addValueInput.value = '';
+    /*if (filterNameInput.value.length) {
+        createTableCookie(getCookie());
+    }*/
+    setTimeout(function () {
+        addNameInput.value = addValueInput.value = '';
+    }, 1000);
 
     if (filterNameInput.value == '') {
         createTableCookie(getCookie());
