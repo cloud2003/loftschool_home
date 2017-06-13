@@ -97,6 +97,10 @@ body {
     cursor: pointer;
     &::after {
       display: block;
+      color: inherit;
+    }
+    &:hover {
+      color: #333;
     }
   }
   &.my-friends {
@@ -123,6 +127,9 @@ body {
   padding: 10px 20px;
   background-color: #f78430;
   border: 0;
+  &:active {
+    background-color: #f77117;
+  }
 }
 
 .b-input {

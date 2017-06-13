@@ -100,6 +100,10 @@ body {
 }
 .b-list__plus::after {
   display: block;
+  color: inherit;
+}
+.b-list__plus:hover {
+  color: #333;
 }
 .b-list.my-friends .b-list__plus::after {
   content: '+';
@@ -120,6 +124,9 @@ body {
   padding: 10px 20px;
   background-color: #f78430;
   border: 0;
+}
+.b-button:active {
+  background-color: #f77117;
 }
 .b-input {
   -webkit-border-radius: 15px;
