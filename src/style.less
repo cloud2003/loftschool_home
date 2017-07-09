@@ -18,19 +18,22 @@ html, body, #map {
   height: 100%;
 }
 
-.ballon {
-  background-color: #54ee77;
-}
-.ballon_header {}
 
 .popover {
   display: block;
+  max-width: 500px!important;
+
+  .close {
+    position: absolute;
+    right: 5px;
+    top: 1px;
+  }
+
+  form {
+    margin: 0;
+  }
 }
-.popover .close {
-  position: absolute;
-  right: 5px;
-  top: 1px;
-}
+
 .btn {
   margin-top: 10px;
 }

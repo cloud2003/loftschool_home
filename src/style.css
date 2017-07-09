@@ -16,16 +16,17 @@ body,
   width: 100%;
   height: 100%;
 }
-.ballon {
-  background-color: #54ee77;
-}
 .popover {
   display: block;
+  max-width: 500px!important;
 }
 .popover .close {
   position: absolute;
   right: 5px;
   top: 1px;
+}
+.popover form {
+  margin: 0;
 }
 .btn {
   margin-top: 10px;
