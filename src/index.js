@@ -81,45 +81,86 @@ var vkModule = {
       filterName(filterSelectedFriends);
       filterAllFriends.value = '';
     });
+  },
+
+  DragDrop: function () {
+    //console.log(ok);
+    function dragDrop(ev) {
+      var data = ev.dataTransfer.getData("text/plain");
+
+      if (ev.target.id != 'addedFriends') {
+        ev.target.closest('#addedFriends').appendChild(document.getElementById(data));
+      } else {
+        ev.target.appendChild(document.getElementById(data));
+      }
+      ev.stopPropagation();
+
+
+      vkRequest.items.filter(function (person, i) {
+        if (e.path[0].id == person.id) {
+          listOfFriends.push(person);
+          vkRequest.items.splice(i, 1);
+        }
+      });
+      // list rendering
+      createFriendsList(addedFriends, listOfFriends);
+      createFriendsList(myFriends, vkRequest.items);
+
+      filterName(filterAllFriends);
+      filterSelectedFriends.value = '';
+
+      return false;
+    }
+
+    function dragStart(ev) {
+      ev.dataTransfer.effectAllowed = 'move';
+      ev.dataTransfer.setData("text/plain", ev.target.getAttribute('id'));
+      ev.dataTransfer.setDragImage(ev.target, 165, 10);
+      return true;
+    }
+
+    function dragEnter(ev) {
+      //console.log('dragEnter ev', ev.target);
+      event.preventDefault();
+      return true;
+    }
+
+    function dragOver(ev) {
+      // console.log('dragOver ev', ev.target);
+      event.preventDefault();
+    }
   }
 };
 
-function dragStart(ev) {
-  //console.log(ev.target.getAttribute('id'));
-  ev.dataTransfer.effectAllowed = 'move';
-  ev.dataTransfer.setData("text/plain", ev.target.getAttribute('id'));
-  ev.dataTransfer.setDragImage(ev.target, 165, 10);
-  return true;
-}
-function dragEnter(ev) {
-  event.preventDefault();
-  return true;
-}
-function dragOver(ev) {
-  event.preventDefault();
-}
-function dragDrop(ev) {
+// id - откуда начинают тащить
+/*function dragDropEl(id) {
   var data = ev.dataTransfer.getData("text/plain");
-  //console.log('getElementById(data)', data);
-  ev.target.appendChild(document.getElementById(data));
-  ev.stopPropagation();
 
-  // if (ev.target.className == 'b-list__plus') {
-    vkRequest.items.filter(function (person, i) {
-      if (ev.path[0].id == person.id) {
-        listOfFriends.push(person);
-        vkRequest.items.splice(i, 1);
-      }
-    });
-    // list rendering
-    createFriendsList(addedFriends, listOfFriends);
-    createFriendsList(myFriends, vkRequest.items);
-  // }
-  filterName(filterAllFriends);
-  filterSelectedFriends.value = '';
+  if ( id == 'myFriends') {
+    if (ev.target.id != 'addedFriends') {
+      ev.target.closest('#addedFriends').appendChild(document.getElementById(data));
+    } else {
+      ev.target.appendChild(document.getElementById(data));
+    }
+    ev.stopPropagation();
 
-  return false;
-}
+
+  }
+  if ( id == 'addedFriends') {
+    if (ev.target.id != 'myFriends') {
+      ev.target.closest('#myFriends').appendChild(document.getElementById(data));
+    } else {
+      ev.target.appendChild(document.getElementById(data));
+    }
+    ev.stopPropagation();
+
+
+  }
+}*/
+
+
+
+
 
 function createFriendsList(where, obj) {
   where.innerHTML = templateFn(obj);
@@ -184,4 +225,24 @@ new Promise(function (resolve, reject) {
     }
   })
   .then(() => vkModule.Init())
+  .then(() => {
+    /*var friendElemsWrapp = document.querySelectorAll('.b-lists')[0];
+    friendElemsWrapp.addEventListener('dragstart', function (e) {
+      if (e.target.className == 'b-list__item') {
+        // console.log('ok');
+        dragStart(e.target);
+      }
+    });*/
+/*    myFriends.addEventListener('drop', function(e){
+      console.log('ok');
+    });
+    myFriends.addEventListener('dragover', dragOver, false);
+    myFriends.addEventListener('drop', dragDrop, false);*/
+    window.vkModule.DragDrop();
+    myFriends.addEventListener('dragover', vkModule.DragDrop.dragOver, false);
+
+
+  })
   .catch(e => alert('Ошибка ' + e.message));
+
+// window.vkModule.DragDrop();
