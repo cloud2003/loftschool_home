@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Мои друзья</title>
+    <link rel="stylesheet" href="style.css" />
+    <script type="text/javascript" src="https://vk.com/js/api/openapi.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.min.js"></script>
+</head>
+<body>
+    <div class="b-content">
+        <div class="b-content__header">Выберите друзей</div>
+        <div class="b-content__body">
+            <div class="b-filters">
+                <div class="b-row">
+                    <div class="b-col">
+                        <input type="text" class="b-input" placeholder="Начните вводить имя друга" id="filterNameInput" />
+                    </div>
+                    <div class="b-col">
+                        <input type="text" class="b-input" placeholder="Начните вводить имя друга" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="b-lists">
+                <div class="b-row">
+                    <div class="b-col">
+                        <div class="b-lists__title">Ваши друзья</div>
+                        <div class="b-list my-friends" id="myFriends">
+                            <!-- список мои друзья -->
+                        </div>
+                    </div>
+                    <div class="b-col">
+                        <div class="b-lists__title">Друзья в списке</div>
+                        <div class="b-list add-friends" id="addedFriends">
+                            <!-- added friends-->
+                            <div class="b-list__item" id="">
+                                <div class="b-list__plus"></div>
+                                <div class="b-list__img"><img src="img/no-image.gif" alt="" /></div>
+                                <div class="b-list__name">Илья</div>
+                            </div>
+                            <div class="b-list__item" id="">
+                                <div class="b-list__plus"></div>
+                                <div class="b-list__img"><img src="img/no-image.gif" alt="" /></div>
+                                <div class="b-list__name">Fekla</div>
+                            </div>
+                            <div class="b-list__item" id="">
+                                <div class="b-list__plus"></div>
+                                <div class="b-list__img"><img src="img/no-image.gif" alt="" /></div>
+                                <div class="b-list__name">Щука</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="b-safe">
+                <button class="b-button">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="index.js"></script>
+</body>
+</html>
